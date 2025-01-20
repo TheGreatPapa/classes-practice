@@ -7,12 +7,38 @@ class Employee:
         self.first = first
         self.last = last
         self.salary = salary
-        self.email = f"{first}.{last}@company.com".lower()
-
         Employee.num_of_employees += 1
+
+    def __repr__(self):
+        return f"Employee('{self.first}','{self.last}','{self.salary}')"
+    
+    def __str__(self):
+        return f"{self.full_name} - {self.email}"
+
+    def __add__(self, other):
+        return self.salary + other.salary
+    def __len__(self):
+        return len(self.full_name)
+
+    @property
     def full_name(self):
         return f"{self.first} {self.last}"
     
+    @full_name.setter
+    def full_name(self, name):
+        first, last = name.split(' ')
+        self.first = first
+        self.last = last
+
+    @full_name.deleter
+    def full_name(self):
+        print('Delete Name!')
+        self.first = None
+        self.last = None
+    @property
+    def email(self):
+        return f"{self.first}.{self.last}@company.com".lower()
+
     def apply_raise(self):
         self.salary *= self.raise_amount
 
@@ -57,7 +83,7 @@ class Manager(Employee):
 
     def print_emps(self):
         for emp in self.employees:
-            print(f'---> {emp.full_name()}')
+            print(f'---> {emp.full_name}')
         
 
 
@@ -65,8 +91,8 @@ class Manager(Employee):
 emp_1 = Employee('Luk','Castillo',50000)
 emp_2 = Employee('Viktor','Parang',40000)
 
-#print(emp_1.full_name())
-#print(emp_2.full_name())
+#print(emp_1.full_name)
+#print(emp_2.full_name)
 #print(emp_2.salary)
 
 emp_2.apply_raise()
@@ -109,3 +135,17 @@ print(isinstance(mgr_1,Developer))
 print(issubclass(Developer,Employee))
 
       
+print(emp_1)
+print(repr(dev_1))
+print(str(dev_1))
+
+print(emp_1 + emp_2)
+print(len(emp_1))
+
+emp_1.full_name = 'New Guy'
+
+print(emp_1)
+
+del emp_1.full_name
+print(emp_1)
+print(emp_2.email)
